@@ -1,8 +1,11 @@
 package com.polar.workshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "user")
@@ -14,6 +17,10 @@ public class User implements Serializable {
     private String id;
     private String name;
     private String email;
+
+    // os posts só vão ser carregados se forem explicitamente acessados
+    @DBRef(lazy = true)
+    private List<Post> posts = new ArrayList<>();
 
     public User() {
     }
@@ -47,6 +54,10 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Post> getPosts() {
+        return this.posts;
     }
 
     @Override 
